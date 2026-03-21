@@ -18,32 +18,54 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final MissoesRepository missoesRepository;
 
-    // Injeção de dependências
     public UsuarioService(UsuarioRepository usuarioRepository, MissoesRepository missoesRepository) {
         this.usuarioRepository = usuarioRepository;
         this.missoesRepository = missoesRepository;
     }
 
-    // Listar retornando DTOs
     public List<UsuarioDTO> listarTodos() {
         return usuarioRepository.findAll().stream()
                 .map(this::converterParaDTO)
                 .collect(Collectors.toList());
     }
 
-    // Buscar por ID retornando DTO
     public Optional<UsuarioDTO> buscarPorId(Long id) {
         return usuarioRepository.findById(id).map(this::converterParaDTO);
     }
 
-    // Salvar recebendo DTO e retornando DTO
     public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
         Usuario usuario = converterParaEntidade(usuarioDTO);
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
         return converterParaDTO(usuarioSalvo);
     }
 
+    // --- Método de atualização ---
+    public UsuarioDTO atualizar(Long id, UsuarioDTO usuarioDTO) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RecursosNaoEncontradosException("Usuário não encontrado com o ID: " + id));
+
+        usuarioExistente.setNome(usuarioDTO.getNome());
+        usuarioExistente.setSobrenome(usuarioDTO.getSobrenome());
+        usuarioExistente.setCpf(usuarioDTO.getCpf());
+        usuarioExistente.setDataNascimento(usuarioDTO.getDataNascimento());
+        usuarioExistente.setTelefone(usuarioDTO.getTelefone());
+        usuarioExistente.setEmail(usuarioDTO.getEmail());
+
+        if (usuarioDTO.getIdMissao() != null) {
+            Missoes missao = missoesRepository.findById(usuarioDTO.getIdMissao())
+                    .orElseThrow(() -> new RecursosNaoEncontradosException("Missão não encontrada com o ID: " + usuarioDTO.getIdMissao()));
+            usuarioExistente.setMissao(missao);
+        }
+
+        Usuario usuarioAtualizado = usuarioRepository.save(usuarioExistente);
+        return converterParaDTO(usuarioAtualizado);
+    }
+
+    // --- Verifica se o ID existe antes de deletar ---
     public void deletar(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RecursosNaoEncontradosException("Usuário não encontrado com o ID: " + id);
+        }
         usuarioRepository.deleteById(id);
     }
 
@@ -74,13 +96,11 @@ public class UsuarioService {
         usuario.setTelefone(dto.getTelefone());
         usuario.setEmail(dto.getEmail());
 
-        // Busca a missão pelo ID antes de associar ao usuário
         if (dto.getIdMissao() != null) {
             Missoes missao = missoesRepository.findById(dto.getIdMissao())
                     .orElseThrow(() -> new RecursosNaoEncontradosException("Missão não encontrada com o ID: " + dto.getIdMissao()));
             usuario.setMissao(missao);
         }
-        
         return usuario;
     }
 }
