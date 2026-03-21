@@ -13,6 +13,8 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 
@@ -41,6 +43,27 @@ public class ManipuladorExcecoesGlobais {
         problem.setProperty("method", request.getMethod());
 
         return problem;
+    }
+
+    // 400 - Parâmetro com tipo errado na URL (Ex: "w" no lugar de um número)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ProblemDetail tratarTipoArgumentoInvalido(
+            MethodArgumentTypeMismatchException ex,
+            HttpServletRequest request) {
+
+        log.warn("Tipo de argumento inválido em {} : {}", request.getRequestURI(), ex.getMessage());
+
+        String valorEnviado = ex.getValue() != null ? ex.getValue().toString() : "nulo";
+        String tipoEsperado = ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "desconhecido";
+
+        String detalhe = String.format("O parâmetro '%s' recebeu o valor '%s', que é de um tipo inválido. O tipo correto deve ser '%s'.",
+                ex.getName(), valorEnviado, tipoEsperado);
+
+        return criarProblemDetail(
+                HttpStatus.BAD_REQUEST,
+                "Parâmetro de URL inválido",
+                detalhe,
+                request);
     }
 
     // 404
