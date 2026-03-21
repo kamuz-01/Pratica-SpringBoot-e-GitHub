@@ -26,4 +26,10 @@ public class ProblemResponse {
 
     @Schema(example = "/api/v1/usuarios/10")
     private String instancia;
+
+    @Schema(example = "21/03/2026 17:41:50")
+    private String timestamp;
+
+    @Schema(example = "GET")
+    private String metodo;
 }
