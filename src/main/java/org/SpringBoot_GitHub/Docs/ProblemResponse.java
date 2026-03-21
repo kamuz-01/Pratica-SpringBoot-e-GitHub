@@ -19,11 +19,11 @@ public class ProblemResponse {
     private int status;
 
     @Schema(example = "Recurso não encontrado")
-    private String title;
+    private String titulo;
 
     @Schema(example = "Usuário com ID 10 não encontrado")
-    private String detail;
+    private String detalhe;
 
     @Schema(example = "/api/v1/usuarios/10")
-    private String instance;
+    private String instancia;
 }
