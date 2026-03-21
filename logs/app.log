@@ -1,0 +1,31 @@
+2026-03-21T17:47:34.156-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.S.PraticaSpringBootGitHubApplication   : Starting PraticaSpringBootGitHubApplication using Java 21.0.9 with PID 22552 (D:\Projetos-Eclipse\Pratica_SpringBoot_GitHub\target\classes started by Usuario in D:\Projetos-Eclipse\Pratica_SpringBoot_GitHub)
+2026-03-21T17:47:34.156-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.S.PraticaSpringBootGitHubApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-21T17:47:34.260-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-21T17:47:34.271-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 2 JPA repository interfaces.
+2026-03-21T17:47:34.321-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-21T17:47:34.322-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-21T17:47:34.323-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-21T17:47:34.338-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 180 ms
+2026-03-21T17:47:34.353-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-21T17:47:34.368-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-21T17:47:34.369-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Starting...
+2026-03-21T17:47:34.374-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Added connection com.mysql.cj.jdbc.ConnectionImpl@64e6e7bd
+2026-03-21T17:47:34.374-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Start completed.
+2026-03-21T17:47:34.376-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/pratica_springboot_github?useSSL=false&serverTimezone=UTC]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.4.7
+	Default catalog/schema: pratica_springboot_github/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-21T17:47:34.412-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-21T17:47:34.413-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-21T17:47:34.476-03:00  WARN 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2026-03-21T17:47:34.500-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-21T17:47:34.502-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] o.S.PraticaSpringBootGitHubApplication   : Started PraticaSpringBootGitHubApplication in 0.375 seconds (process running for 842.589)
+2026-03-21T17:47:34.503-03:00  INFO 22552 --- [Pratica_SpringBoot_GitHub] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
