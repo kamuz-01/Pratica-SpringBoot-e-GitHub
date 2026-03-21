@@ -1,5 +1,6 @@
 package org.SpringBoot_GitHub.Services;
 
+import org.SpringBoot_GitHub.GerenciamentoErros.RecursosNaoEncontradosException;
 import org.SpringBoot_GitHub.Models.DTOs.UsuarioDTO;
 import org.SpringBoot_GitHub.Models.Entities.Missoes;
 import org.SpringBoot_GitHub.Models.Entities.Usuario;
@@ -76,7 +77,7 @@ public class UsuarioService {
         // Busca a missão pelo ID antes de associar ao usuário
         if (dto.getIdMissao() != null) {
             Missoes missao = missoesRepository.findById(dto.getIdMissao())
-                    .orElseThrow(() -> new RuntimeException("Missão não encontrada com o ID: " + dto.getIdMissao()));
+                    .orElseThrow(() -> new RecursosNaoEncontradosException("Missão não encontrada com o ID: " + dto.getIdMissao()));
             usuario.setMissao(missao);
         }
         
