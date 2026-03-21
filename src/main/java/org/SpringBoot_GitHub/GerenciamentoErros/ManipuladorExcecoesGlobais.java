@@ -1,53 +1,83 @@
 package org.SpringBoot_GitHub.GerenciamentoErros;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+
+import org.SpringBoot_GitHub.Docs.ProblemResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 
 @RestControllerAdvice
 public class ManipuladorExcecoesGlobais {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(ManipuladorExcecoesGlobais.class);
+    private static final Logger log = LoggerFactory.getLogger(ManipuladorExcecoesGlobais.class);
 
-    private ProblemDetail criarProblemDetail(
+    private ResponseEntity<ProblemResponse> criarProblemResponse(
             HttpStatus status,
-            String title,
-            String detail,
+            String titulo,
+            String detalhe,
             HttpServletRequest request) {
 
-        ProblemDetail problem = ProblemDetail.forStatus(status);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.of("pt", "BR"));
 
-        problem.setTitle(title);
-        problem.setDetail(detail);
-        problem.setInstance(URI.create(request.getRequestURI()));
+        // O @Builder do Lombok permite criar o objeto de forma muito elegante
+        ProblemResponse problem = ProblemResponse.builder()
+                .status(status.value())
+                .titulo(titulo)
+                .detalhe(detalhe)
+                .instancia(request.getRequestURI())
+                .timestamp(LocalDateTime.now().format(formatter))
+                .metodo(request.getMethod())
+                .build();
 
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.of("pt", "BR"));
-
-        problem.setProperty("timestamp", LocalDateTime.now().format(formatter));
-        problem.setProperty("method", request.getMethod());
-
-        return problem;
+        return ResponseEntity.status(status).body(problem);
     }
 
-    // 400 - Parâmetro com tipo errado na URL (Ex: "w" no lugar de um número)
+    // 404
+    @ExceptionHandler(RecursosNaoEncontradosException.class)
+    public ResponseEntity<ProblemResponse> tratarNaoEncontrado(
+            RecursosNaoEncontradosException ex,
+            HttpServletRequest request) {
+
+        log.warn("Recurso não encontrado: {} - {}", request.getRequestURI(), ex.getMessage());
+
+        return criarProblemResponse(
+                HttpStatus.NOT_FOUND,
+                "Recurso não encontrado",
+                ex.getMessage(),
+                request);
+    }
+
+    // 404 - Rota ou Recurso estático não encontrado (ex: favicon.ico)
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ProblemResponse> tratarRotaNaoEncontrada(
+            NoResourceFoundException ex,
+            HttpServletRequest request) {
+
+        log.warn("Rota ou recurso não encontrado: {}", request.getRequestURI());
+
+        return criarProblemResponse(
+                HttpStatus.NOT_FOUND,
+                "Caminho não encontrado",
+                "A URL ou recurso solicitado ('" + request.getRequestURI() + "') não existe neste servidor.",
+                request);
+    }
+
+    // 400 - Parâmetro com tipo errado na URL (Ex: "w" ou "-" no lugar de um número)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ProblemDetail tratarTipoArgumentoInvalido(
+    public ResponseEntity<ProblemResponse> tratarTipoArgumentoInvalido(
             MethodArgumentTypeMismatchException ex,
             HttpServletRequest request) {
 
@@ -59,41 +89,20 @@ public class ManipuladorExcecoesGlobais {
         String detalhe = String.format("O parâmetro '%s' recebeu o valor '%s', que é de um tipo inválido. O tipo correto deve ser '%s'.",
                 ex.getName(), valorEnviado, tipoEsperado);
 
-        return criarProblemDetail(
+        return criarProblemResponse(
                 HttpStatus.BAD_REQUEST,
                 "Parâmetro de URL inválido",
                 detalhe,
                 request);
     }
 
-    // 404
-    @ExceptionHandler(RecursosNaoEncontradosException.class)
-    public ProblemDetail tratarNaoEncontrado(
-            RecursosNaoEncontradosException ex,
-            HttpServletRequest request) {
-
-        log.warn("Recurso não encontrado: {} - {}", request.getRequestURI(), ex.getMessage());
-
-        return criarProblemDetail(
-                HttpStatus.NOT_FOUND,
-                "Recurso não encontrado",
-                ex.getMessage(),
-                request);
-    }
-
-    // 400 validação
+    // 400 - Validação
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail tratarErroValidacao(
+    public ResponseEntity<ProblemResponse> tratarErroValidacao(
             MethodArgumentNotValidException ex,
             HttpServletRequest request) {
 
         log.warn("Erro de validação em {} : {}", request.getRequestURI(), ex.getMessage());
-
-        ProblemDetail problem = criarProblemDetail(
-                HttpStatus.BAD_REQUEST,
-                "Erro de validação",
-                "Um ou mais campos estão inválidos",
-                request);
 
         List<String> erros = ex.getBindingResult()
                 .getFieldErrors()
@@ -101,35 +110,39 @@ public class ManipuladorExcecoesGlobais {
                 .map(e -> e.getField() + ": " + e.getDefaultMessage())
                 .toList();
 
-        problem.setProperty("errors", erros);
+        String detalhe = "Um ou mais campos estão inválidos: " + String.join(", ", erros);
 
-        return problem;
+        return criarProblemResponse(
+                HttpStatus.BAD_REQUEST,
+                "Erro de validação",
+                detalhe,
+                request);
     }
 
     // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ProblemDetail tratarConflito(
+    public ResponseEntity<ProblemResponse> tratarConflito(
             DataIntegrityViolationException ex,
             HttpServletRequest request) {
 
         log.error("Conflito de dados em {} : {}", request.getRequestURI(), ex.getMessage());
 
-        return criarProblemDetail(
+        return criarProblemResponse(
                 HttpStatus.CONFLICT,
                 "Conflito de dados",
-                "Violação de integridade no banco de dados",
+                "Violação de integridade na base de dados",
                 request);
     }
 
     // 422
     @ExceptionHandler(IllegalStateException.class)
-    public ProblemDetail tratarRegraNegocio(
+    public ResponseEntity<ProblemResponse> tratarRegraNegocio(
             IllegalStateException ex,
             HttpServletRequest request) {
 
         log.warn("Erro de regra de negócio em {} : {}", request.getRequestURI(), ex.getMessage());
 
-        return criarProblemDetail(
+        return criarProblemResponse(
                 HttpStatus.UNPROCESSABLE_CONTENT,
                 "Erro de regra de negócio",
                 ex.getMessage(),
@@ -138,13 +151,13 @@ public class ManipuladorExcecoesGlobais {
 
     // 400
     @ExceptionHandler(IllegalArgumentException.class)
-    public ProblemDetail tratarBadRequest(
+    public ResponseEntity<ProblemResponse> tratarBadRequest(
             IllegalArgumentException ex,
             HttpServletRequest request) {
 
         log.warn("Requisição inválida em {} : {}", request.getRequestURI(), ex.getMessage());
 
-        return criarProblemDetail(
+        return criarProblemResponse(
                 HttpStatus.BAD_REQUEST,
                 "Requisição inválida",
                 ex.getMessage(),
@@ -153,13 +166,13 @@ public class ManipuladorExcecoesGlobais {
 
     // 500
     @ExceptionHandler(Exception.class)
-    public ProblemDetail tratarErroInterno(
+    public ResponseEntity<ProblemResponse> tratarErroInterno(
             Exception ex,
             HttpServletRequest request) {
 
         log.error("Erro interno em {} ", request.getRequestURI(), ex);
 
-        return criarProblemDetail(
+        return criarProblemResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Erro interno do servidor",
                 "Ocorreu um erro inesperado",
