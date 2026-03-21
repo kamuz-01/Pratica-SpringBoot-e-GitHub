@@ -73,7 +73,7 @@ public class MissoesController {
     @Operation(summary = "Deleta uma missão pelo seu ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Missão deletada com sucesso"),
-        @ApiResponse(responseCode = "404", description = "Missão não encontrada", 
+        @ApiResponse(responseCode = "404", description = "Missão não encontrada",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemResponse.class)))
     })
     @DeleteMapping("/{id}")
