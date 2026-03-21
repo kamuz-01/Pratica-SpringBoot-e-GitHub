@@ -2,6 +2,8 @@ package org.SpringBoot_GitHub.Models.Entities;
 
 import org.SpringBoot_GitHub.Models.Enums.GrauDificuldade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,5 +45,6 @@ public class Missoes {
     // Relacionamento @OneToMany - Uma missão pode ser feita por vários usuários
     @OneToMany(mappedBy = "missoes")
     @JoinColumn(name = "id_usuario", nullable = false) // Foreign Key
+    @JsonIgnore
     private Usuario usuario;
 }
