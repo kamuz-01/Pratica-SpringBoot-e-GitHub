@@ -1,5 +1,6 @@
 package org.SpringBoot_GitHub.Controllers;
 
+import org.SpringBoot_GitHub.GerenciamentoErros.RecursosNaoEncontradosException;
 import org.SpringBoot_GitHub.Models.DTOs.MissoesDTO;
 import org.SpringBoot_GitHub.Services.MissoesService;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/missoes")
@@ -31,9 +31,9 @@ public class MissoesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MissoesDTO> buscarPorId(@PathVariable Long id) {
-        Optional<MissoesDTO> missao = missoesService.buscarPorId(id);
-        return missao.map(ResponseEntity::ok)
-                     .orElseGet(() -> ResponseEntity.notFound().build());
+        MissoesDTO missao = missoesService.buscarPorId(id)
+                .orElseThrow(() -> new RecursosNaoEncontradosException("Missão não encontrada com o ID: " + id));
+        return ResponseEntity.ok(missao);
     }
 
     @PostMapping
