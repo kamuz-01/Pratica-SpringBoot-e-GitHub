@@ -1,6 +1,7 @@
 package org.SpringBoot_GitHub.Models.Entities;
 
 import org.SpringBoot_GitHub.Models.Enums.GrauDificuldade;
+import org.SpringBoot_GitHub.Models.Enums.StatusMissao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
@@ -40,6 +41,10 @@ public class Missoes {
     @Enumerated(EnumType.STRING)
     @Column(name = "grau_dificuldade", nullable = false)
     private GrauDificuldade grauDificuldade;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_missao", nullable = false)
+    private StatusMissao statusMissao;
 
     // Relacionamento @OneToMany - Uma missão pode ser feita por vários usuários
     @OneToMany(mappedBy = "missao")
