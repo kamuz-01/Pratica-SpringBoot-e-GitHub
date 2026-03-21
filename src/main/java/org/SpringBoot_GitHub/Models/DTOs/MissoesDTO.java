@@ -16,7 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MissoesDTO {
 
-    @Column(name = "id_missao")
     private Long idMissao;
 
     @NotBlank(message = "O nome da missão é obrigatório")

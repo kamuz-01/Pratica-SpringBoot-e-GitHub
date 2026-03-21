@@ -39,7 +39,6 @@ public class UsuarioDTO {
     @Email(message = "Formato de e-mail inválido")
     private String email;
 
-    @Column(name = "id_missao", nullable = false)
     @NotNull(message = "A missão vinculada é obrigatória")
     private Long idMissao;
 }
