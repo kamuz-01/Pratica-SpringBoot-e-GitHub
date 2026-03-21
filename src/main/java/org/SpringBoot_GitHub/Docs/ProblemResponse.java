@@ -1,5 +1,29 @@
 package org.SpringBoot_GitHub.Docs;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(description = "Erro retornado pela API")
 public class ProblemResponse {
 
+    @Schema(example = "404")
+    private int status;
+
+    @Schema(example = "Recurso não encontrado")
+    private String title;
+
+    @Schema(example = "Usuário com ID 10 não encontrado")
+    private String detail;
+
+    @Schema(example = "/api/v1/usuarios/10")
+    private String instance;
 }
