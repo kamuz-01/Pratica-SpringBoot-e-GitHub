@@ -48,5 +48,5 @@ public class Usuario {
     // Relacionamento @ManyToOne - Um usuário pode ter uma única missão
     @ManyToOne
     @JoinColumn(name = "id_missao", nullable = false) // Foreign Key
-    private Missoes missoes;
+    private Missoes missao;
 }
