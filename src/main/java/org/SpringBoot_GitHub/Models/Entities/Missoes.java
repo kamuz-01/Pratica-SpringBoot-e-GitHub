@@ -43,7 +43,7 @@ public class Missoes {
     private GrauDificuldade grauDificuldade;
 
     // Relacionamento @OneToMany - Uma missão pode ser feita por vários usuários
-    @OneToMany(mappedBy = "missoes")
+    @OneToMany(mappedBy = "missao")
     @JsonIgnore
     private List<Usuario> usuarios;
 }
