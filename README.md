@@ -280,7 +280,7 @@ Content-Type: application/json
 | Tecnologia                  | Versão   | Uso                                      |
 |-----------------------------|----------|------------------------------------------|
 | Java                        | 21       | Linguagem principal                      |
-| Spring Boot                 | 4.0.4    | Framework base                           |
+| Spring Boot                 | 3.5.12    | Framework base                           |
 | Spring Data JPA             | —        | Persistência e repositórios              |
 | Spring Validation           | —        | Validação de DTOs com Bean Validation    |
 | Hibernate Validator         | —        | `@CPF` e demais constraints              |
