@@ -194,7 +194,7 @@ O projeto possui **100% de cobertura** nas camadas de regras de negócio e endpo
 - **Service Tests:** Testes unitários utilizando **JUnit 5** e **Mockito** para simular o comportamento do banco de dados e validar as regras de negócio de forma isolada (ex: impedir cadastro de usuário com missão inexistente).
 - **Controller Tests:** Testes de integração da camada Web utilizando **MockMvc** (`@WebMvcTest`), simulando requisições HTTP reais para validar retornos JSON, códigos de status (200, 201, 400, 404) e o acionamento correto do Tratamento Global de Erros.
 
-Para rodar a suíte completa de testes (24 testes), execute na raiz do projeto:
+Para rodar a suíte completa de testes (14 testes), execute na raiz do projeto:
 
 ```bash
 ./mvnw clean test
