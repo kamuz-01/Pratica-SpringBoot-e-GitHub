@@ -83,8 +83,14 @@ public class ManipuladorExcecoesGlobais {
 
         log.warn("Tipo de argumento inválido em {} : {}", request.getRequestURI(), ex.getMessage());
 
-        String valorEnviado = ex.getValue() != null ? ex.getValue().toString() : "nulo";
-        String tipoEsperado = ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "desconhecido";
+        Object value = ex.getValue();
+
+        String valorEnviado = (value != null) ? value.toString() : "nulo";
+
+        Class<?> requiredType = ex.getRequiredType();
+
+        String tipoEsperado = (requiredType != null) ? requiredType.getSimpleName() 
+        : "desconhecido";
 
         String detalhe = String.format("O parâmetro '%s' recebeu o valor '%s', que é de um tipo inválido. O tipo correto deve ser '%s'.",
                 ex.getName(), valorEnviado, tipoEsperado);
