@@ -1,12 +1,12 @@
 <div align="center">
 
 ```
-              ██████╗ ███████╗███████╗████████╗     █████╗ ██████╗ ██╗
-              ██╔══██╗██╔════╝██╔════╝╚══██╔══╝   ██╔══██╗██╔══██╗██║
-              ██████╔╝█████╗  ███████╗   ██║      ███████║██████╔╝██║
-              ██╔══██╗██╔══╝  ╚════██║   ██║      ██╔══██║██╔═══╝ ██║
-              ██║  ██║███████╗███████║   ██║      ██║  ██║██║     ██║
-              ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝      ╚═╝  ╚═╝╚═╝     ╚═╝
+                  ██████╗ ███████╗███████╗████████╗     █████╗ ██████╗ ██╗
+                  ██╔══██╗██╔════╝██╔════╝╚══██╔══╝   ██╔══██╗██╔══██╗██║
+                  ██████╔╝█████╗  ███████╗   ██║      ███████║██████╔╝██║
+                  ██╔══██╗██╔══╝  ╚════██║   ██║      ██╔══██║██╔═══╝ ██║
+                  ██║  ██║███████╗███████║   ██║      ██║  ██║██║     ██║
+                  ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝      ╚═╝  ╚═╝╚═╝     ╚═╝
 ```
 
 ### **Gerenciamento de Usuários e Missões**
@@ -187,6 +187,21 @@ Todos os endpoints estão documentados com `@Operation`, `@ApiResponse` e o mode
 
 ---
 
+## 🧪 Testes Automatizados
+
+O projeto possui **100% de cobertura** nas camadas de regras de negócio e endpoints, garantindo a integridade da API:
+
+- **Service Tests:** Testes unitários utilizando **JUnit 5** e **Mockito** para simular o comportamento do banco de dados e validar as regras de negócio de forma isolada (ex: impedir cadastro de usuário com missão inexistente).
+- **Controller Tests:** Testes de integração da camada Web utilizando **MockMvc** (`@WebMvcTest`), simulando requisições HTTP reais para validar retornos JSON, códigos de status (200, 201, 400, 404) e o acionamento correto do Tratamento Global de Erros.
+
+Para rodar a suíte completa de testes (24 testes), execute na raiz do projeto:
+
+```bash
+./mvnw clean test
+```
+
+---
+
 ## ⚙️ Configuração e Execução
 
 ### Pré-requisitos
@@ -277,18 +292,20 @@ Content-Type: application/json
 
 ## 🏗️ Tecnologias Utilizadas
 
-| Tecnologia                  | Versão   | Uso                                      |
-|-----------------------------|----------|------------------------------------------|
-| Java                        | 21       | Linguagem principal                      |
-| Spring Boot                 | 3.5.12   | Framework base                           |
-| Spring Data JPA             | —        | Persistência e repositórios              |
-| Spring Validation           | —        | Validação de DTOs com Bean Validation    |
-| Hibernate Validator         | —        | `@CPF` e demais constraints              |
-| MySQL Connector             | —        | Driver JDBC para MySQL                   |
-| Lombok                      | —        | Redução de boilerplate                   |
-| SpringDoc OpenAPI           | 2.8.5    | Documentação Swagger automática          |
-| Logback                     | —        | Logging estruturado com rolling diário   |
-| Spring Boot DevTools        | —        | Reload automático em desenvolvimento     |
+| Tecnologia                  | Versão   | Uso                                          |
+|-----------------------------|----------|----------------------------------------------|
+| Java                        |    21    | Linguagem principal                          |
+| Spring Boot                 |  3.5.12  | Framework base                               |
+| Spring Data JPA             |     —    | Persistência e repositórios                  |
+| Spring Validation           |     —    | Validação de DTOs com Bean Validation        |
+| Hibernate Validator         |     —    | `@CPF` e demais constraints                  |
+| MySQL Connector             |     —    | Driver JDBC para MySQL                       |
+| Lombok                      |     —    | Redução de boilerplate                       |
+| SpringDoc OpenAPI           |  2.8.5   | Documentação Swagger automática              |
+| Logback                     |     —    | Logging estruturado com rolling diário       |
+| Spring Boot DevTools        |     —    | Reload automático em desenvolvimento         |
+| **JUnit 5 & Mockito**       |     —    | Suíte de testes unitários e criação de Mocks |
+| **MockMvc**                 |     —    | Simulação e testes de requisições HTTP REST  |
 
 ---
 
