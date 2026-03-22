@@ -143,7 +143,7 @@ public class ManipuladorExcecoesGlobais {
         log.warn("Erro de regra de negócio em {} : {}", request.getRequestURI(), ex.getMessage());
 
         return criarProblemResponse(
-                HttpStatus.UNPROCESSABLE_CONTENT,
+                HttpStatus.UNPROCESSABLE_ENTITY,
                 "Erro de regra de negócio",
                 ex.getMessage(),
                 request);
