@@ -323,5 +323,5 @@ Content-Type: application/json
 <div align="center">
 
 *Desenvolvido como projeto de prática — Spring Boot · Git · GitHub*
-
+<strong><em>Todos os direitos reservados © 2026</em></strong>
 </div>
