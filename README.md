@@ -11,7 +11,7 @@
 
 ### **Gerenciamento de Usuários e Missões**
 
-*Uma API REST profissional construída com Spring Boot 4 · Java 21 · MySQL*
+*Uma API REST profissional construída com Spring Boot 3.5.12 · Java 21 · MySQL*
 
 <br/>
 
