@@ -4,7 +4,6 @@ import org.SpringBoot_GitHub.Models.Enums.GrauDificuldade;
 import org.SpringBoot_GitHub.Models.Enums.StatusMissao;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
