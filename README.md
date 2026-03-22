@@ -216,13 +216,7 @@ spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 ```
 
-### 4. Crie a coluna `status_missao` (necessário por usar `ddl-auto=none`)
-
-```sql
-ALTER TABLE missoes ADD COLUMN status_missao VARCHAR(20) NOT NULL;
-```
-
-### 5. Execute a aplicação
+### 4. Execute a aplicação
 
 ```bash
 ./mvnw spring-boot:run
